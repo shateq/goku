@@ -1,0 +1,33 @@
+import java.nio.charset.StandardCharsets
+
+plugins {
+    id("java")
+//    id("kotlin") version "1.5.10"
+}
+
+group = "shateq.java"
+version "1.0"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("org.jetbrains:annotations:23.0.0")
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    // withSourcesJar()
+}
+
+tasks {
+    compileJava {
+        options.encoding = StandardCharsets.UTF_8.name() // Must have!
+        options.release.set(17)
+    }
+
+    processResources {
+        filteringCharset = StandardCharsets.UTF_8.name()
+    }
+}
