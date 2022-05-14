@@ -1,15 +1,17 @@
 package shateq.java.goku;
 
+import shateq.kotlin.goku.Player;
+
 import java.util.Map;
 import java.util.Scanner;
 
-public class Main {
-
-    private static boolean work = true;
+public class GokuMain {
 
     public static void main(String[] args) {
+        boolean work = true;
         System.out.printf("Swiss Tournament Terminal Manager\nOptions: %s, %s, %s, %s\n", "list", "start", "next", "results");
         Scanner s = new Scanner(System.in);
+
         Tournament tournament = new Tournament("Testowy");
         tournament.addPlayer(new Player("Andrzej"));
         tournament.addPlayer(new Player("Tomek"));

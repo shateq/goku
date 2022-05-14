@@ -1,9 +1,11 @@
 package shateq.java.goku;
 
-import org.jetbrains.annotations.NotNull;
-import shateq.java.goku.registry.User;
+import shateq.kotlin.goku.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Tournament {
     public List<Round> rounds = new LinkedList<>();
@@ -11,7 +13,7 @@ public class Tournament {
     private Scoring scoring = new Tournament.Scoring(1F, 0.5F, 0F);
 
     private boolean running = false;
-    private final String name;
+    public final String name;
 
     public Tournament(String name) {
         this.name = name;
@@ -55,8 +57,7 @@ public class Tournament {
 
     public void end() {
         if (!running) return;
-        // DRODZY JA WIEM, JA WIEM - ale ja też wiem co robię -1 sprawia że obiekt przechodzi do wcześniejszych miotów kolekcji
-        // Chodzi o efekt tablicy wyników, szanujmy się, szanujmy się - jest to coś niepoprawnego
+        // DRODZY JA WIEM, chodzi o efekt tablicy wyników - ale ja też wiem co robię -1 sprawia że obiekt przechodzi do wcześniejszych miotów kolekcji
         players.sort((o1, o2) -> {
             if (o1.points() > o2.points()) return -1;
             if (o1.points() < o2.points()) return 1;
@@ -83,12 +84,6 @@ public class Tournament {
     public void addPlayer(Player player) {
         players.add(player);
     }
-
-    public void addPlayer(@NotNull User player) {
-        players.add(new Player(player.name()));
-    }
-
-    public String name() { return name;}
 
     public boolean started() {
         return running;
