@@ -7,12 +7,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Round {
     private final HashMap<Player, Player> round = new HashMap<>();
-    private boolean ended = false;
+    private final Tournament tournament;
 
-    public Round(Collection<Player> players) {
+    public Round(List<Player> players, Tournament tournament) {
+        this.tournament = tournament;
         match(players);
     }
 
+    // TODO some
     private void match(Collection<Player> players) {
         var list = new ArrayList<>(players);
         Collections.shuffle(list);
@@ -30,12 +32,47 @@ public class Round {
         }
     }
 
-    public void end() {
-        this.ended = true;
-    }
+    public void fill() {
+        enum Verdict {
+            WIN("1 - 0"), LOSE("0 - 1"), DRAW("0.5");
 
-    public boolean ended() {
-        return ended;
+            private final String mark;
+            Verdict(String mark) {
+                this.mark = mark;
+            }
+        }
+
+        System.out.println("Filling out the results for current round...\n" +
+                "Type in '+' (win) or '-' (lose), blank line is equivalent to draw.");
+
+        var i = 0;
+        for (Map.Entry<Player, Player> map : round.entrySet()) {
+            i++;
+            var first = map.getKey();
+            var second = map.getValue();
+            Verdict verdict;
+
+            System.out.printf("%s | %s: %s VS %s: %s\n", i,
+                    first.index(), first.name(),
+                    second.index(), second.name()
+            );
+            String answer = GokuMain.SCANNER.nextLine();
+
+            switch(answer) {
+                case "+" -> verdict = Verdict.WIN;
+                case "-" -> verdict = Verdict.LOSE;
+                default -> verdict = Verdict.DRAW;
+            }
+
+            System.out.printf("--> %s: %s | %s | %s: %s\n",
+                    first.index(), first.name(),
+                    verdict.mark,
+                    second.index(), second.name()
+            );
+            // TODO add wins and draws
+        }
+
+        System.out.println("Results filled out, changes may be made later.");
     }
 
     public HashMap<Player, Player> map() {
@@ -44,11 +81,14 @@ public class Round {
 
     public void print() {
         var i = 0;
-        for (Map.Entry<Player, Player> key : /* Insert magic here */ map().entrySet()) {
+        for (Map.Entry<Player, Player> key : map().entrySet()) {
             i++;
             var first = key.getKey();
             var second = key.getValue();
-            System.out.printf("%s | %s, %s | vs | %s, %s\n", i, first.name(), first.points(), second.name(), second.points());
+            System.out.printf("%s | %s: %s, %s | vs | %s: %s, %s\n", i,
+                    first.index(), first.name(), tournament.points(first),
+                    second.index(), second.name(), tournament.points(second)
+            );
         }
     }
 }

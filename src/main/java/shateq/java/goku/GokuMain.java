@@ -1,106 +1,68 @@
 package shateq.java.goku;
 
-import shateq.kotlin.goku.Player;
+import shateq.kotlin.goku.registry.Performer;
 
-import java.util.Map;
 import java.util.Scanner;
 
 public class GokuMain {
 
+    public static final Scanner SCANNER = new Scanner(System.in);
+
     public static void main(String[] args) {
-        boolean work = true;
-        System.out.printf("Swiss Tournament Terminal Manager\nOptions: %s, %s, %s, %s\n", "list", "start", "next", "results");
-        Scanner s = new Scanner(System.in);
+        System.out.printf("Swiss Tournament Command Line Manager\nOptions: %s, %s, %s, %s, %s, %s\n\n", "start", "table", "score", "next", "end", "exit");
 
         Tournament tournament = new Tournament("Testowy");
-        tournament.addPlayer(new Player("Andrzej"));
-        tournament.addPlayer(new Player("Tomek"));
-        tournament.addPlayer(new Player("Jan"));
-        tournament.addPlayer(new Player("Julia"));
-        tournament.addPlayer(new Player("Albert"));
-        tournament.addPlayer(new Player("Anna"));
+        tournament.addPlayer(new Performer("Andrzej"));
+        tournament.addPlayer(new Performer("Tomek"));
+        tournament.addPlayer(new Performer("Albert"));
+        tournament.addPlayer(new Performer("Anna"));
 
-        while (work) {
-            String r = s.nextLine();
-            if (r.equalsIgnoreCase("exit")) System.exit(0);
+        // While
+        while (true) {
+            String line = SCANNER.nextLine();
+            if (line.equalsIgnoreCase("exit")) { System.exit(0); }
 
-            if (r.equalsIgnoreCase("list")) {
+            if (line.equalsIgnoreCase("table")) {
                 tournament.getTable();
                 continue;
             }
 
-            if (r.equalsIgnoreCase("round")) {
-                if (!tournament.started() || tournament.lastRound().ended()) {
-                    System.out.printf("Round that you are trying to insert scoring to has just ended.\nOptions: %s, %s, %s, %s\n", "list", "start", "next", "results");
-                    continue;
-                }
-                System.out.println("Filling out points for the current round.");
-                var i = 0;
-                for (Map.Entry<Player, Player> map : tournament.lastRound().map().entrySet()) {
-                    i++;
-                    var first = map.getKey();
-                    var second = map.getValue();
-                    var pseudoFirst = 0;
-                    var pseudoSecond = 0;
-                    // TODO: red flag
-                    System.out.printf("%s | %s, %s | vs | %s, %s\nType in '+' or '-' (leave blank in case of draw): ", i, first.name(), first.points(), second.name(), second.points());
-                    String answer = s.nextLine();
-                    if (answer.equalsIgnoreCase("+")) {
-                        pseudoFirst += tournament.scoring().win();
-                    } else if (answer.equalsIgnoreCase("-")) {
-                        pseudoSecond += tournament.scoring().win();
-                    } else {
-                        pseudoFirst += tournament.scoring().draw();
-                        pseudoSecond += tournament.scoring().draw();
-                    }
-
-                    System.out.printf("%s | %s, %s | vs | %s, %s", i, first.name(), first.points() + pseudoFirst, second.name(), second.points() + pseudoSecond);
-                }
-                System.out.print("Is this OK? It is impossible to revert changes after confirmation.\nType in OK or press ENTER (type in 'cancel' to insert again): ");
-                String c =  s.nextLine();
-                if (c.equalsIgnoreCase("ok") || c.isBlank()) {
-                    System.out.println("Understandable.");
-                } else {
-                    System.out.println("Working");
-                }
-                continue;
-            }
-
-            if (r.equalsIgnoreCase("next")) {
-                if(!tournament.started()) continue;
-                System.out.println("Parowanie...");
-                tournament.nextRound();
-                continue;
-            }
-
-            if (r.equalsIgnoreCase("start")) {
-                System.out.println("Starting...");
+            if (line.equalsIgnoreCase("start")) {
+                System.out.println("Opening...");
                 tournament.start();
                 continue;
             }
 
-            if (r.equalsIgnoreCase("results")) {
-                if (!tournament.started()) continue;
-                System.out.println("Ending...");
-                tournament.end();
+            // Condition
+            if(tournament.running()) {
+                if (line.equalsIgnoreCase("next")) {
+                    System.out.println("Matching...");
+                    tournament.newRound();
+                    continue;
+                }
+
+                if (line.equalsIgnoreCase("fill")) {
+                    tournament.lastRound().fill();
+                    continue;
+                }
+
+                if (line.equalsIgnoreCase("end")) {
+                    tournament.finish();
+                    continue;
+                }
+
+                System.out.printf("Options: %s, %s, %s, %s, %s, %s\n", "start", "table", "fill", "next", "end", "exit");
                 continue;
             }
 
-            if(!tournament.started()) {
-                if(!r.isEmpty()) {
-                    tournament.addPlayer(new Player(r));
-                    System.out.printf("New player '%s' included.\n", r);
-                }
-            } else {
-                System.out.printf("Tournament already started.\nOptions: %s, %s, %s, %s\n", "list", "start", "next", "results");
+            if(!line.isEmpty()) {
+                tournament.addPlayer(new Performer(line));
+                System.out.printf("New player '%s' added.\n", line);
             }
         }
     }
 
-//    public static void window(String name) {
-//        JFrame frame = new JFrame(name);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(800, 600);
-//        frame.setVisible(true);
-//    }
+    private void options() {
+        // TODO
+    }
 }
