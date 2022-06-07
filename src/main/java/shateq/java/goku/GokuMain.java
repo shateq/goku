@@ -9,7 +9,8 @@ public class GokuMain {
     public static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.printf("Swiss Tournament Command Line Manager\nOptions: %s, %s, %s, %s, %s, %s\n\n", "start", "table", "score", "next", "end", "exit");
+        System.out.println("Swiss Tournament Command Line Manager");
+        options();
 
         Tournament tournament = new Tournament("Testowy");
         tournament.addPlayer(new Performer("Andrzej"));
@@ -51,7 +52,7 @@ public class GokuMain {
                     continue;
                 }
 
-                System.out.printf("Options: %s, %s, %s, %s, %s, %s\n", "start", "table", "fill", "next", "end", "exit");
+                options();
                 continue;
             }
 
@@ -62,7 +63,9 @@ public class GokuMain {
         }
     }
 
-    private void options() {
-        // TODO
+    private static void options() {
+        System.out.printf("Options: %s, %s, %s, %s, %s, %s\n",
+                "exit", "table", "start", "next", "fill", "end"
+        );
     }
 }

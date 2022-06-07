@@ -26,7 +26,7 @@ public class Tournament {
     }
 
     public void start() {
-        if (running) return;
+        if (running) { return; }
         if (players.size() < 2) {
             System.out.println("At least 2 players are required to start...");
         }
@@ -37,6 +37,10 @@ public class Tournament {
     }
 
     public void newRound() {
+        if(!lastRound().filled()) {
+            System.out.println("May not pair a new round, the last one hasn't been filled yet!");
+            return;
+        }
         Round round = new Round(players, this);
         rounds.add(round);
         round.print();
@@ -49,7 +53,10 @@ public class Tournament {
         var i = 0;
         for (Player p : players) {
             i++;
-            System.out.printf("%s | %s: %s | %s, %s \n", i, p.index(), p.name(), points(p), p.wins());
+            System.out.printf("%s | %s: %s | %s, %s \n", i,
+                    p.index(), p.name(),
+                    points(p), p.wins()
+            );
         }
     }
 

@@ -18,4 +18,8 @@ data class Player(@get:JvmName("name") val name: String, @get:JvmName("index") v
     var draws: Int = 0
         @JvmName("draws") get
         private set
+
+    fun incWins() { this.wins += 1 }
+
+    fun incDraws() { this.draws += 1 }
 }

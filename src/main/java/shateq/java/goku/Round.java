@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Round {
     private final HashMap<Player, Player> round = new HashMap<>();
     private final Tournament tournament;
+    private boolean filled = false;
 
     public Round(List<Player> players, Tournament tournament) {
         this.tournament = tournament;
@@ -33,18 +34,8 @@ public class Round {
     }
 
     public void fill() {
-        enum Verdict {
-            WIN("1 - 0"), LOSE("0 - 1"), DRAW("0.5");
-
-            private final String mark;
-            Verdict(String mark) {
-                this.mark = mark;
-            }
-        }
-
         System.out.println("Filling out the results for current round...\n" +
                 "Type in '+' (win) or '-' (lose), blank line is equivalent to draw.");
-
         var i = 0;
         for (Map.Entry<Player, Player> map : round.entrySet()) {
             i++;
@@ -58,7 +49,7 @@ public class Round {
             );
             String answer = GokuMain.SCANNER.nextLine();
 
-            switch(answer) {
+            switch (answer) {
                 case "+" -> verdict = Verdict.WIN;
                 case "-" -> verdict = Verdict.LOSE;
                 default -> verdict = Verdict.DRAW;
@@ -69,9 +60,17 @@ public class Round {
                     verdict.mark,
                     second.index(), second.name()
             );
-            // TODO add wins and draws
-        }
 
+            switch (verdict) { // Submitting the verdict
+                case WIN -> first.incWins();
+                case LOSE -> second.incWins();
+                case DRAW -> {
+                    first.incDraws();
+                    second.incDraws();
+                }
+            }
+        }
+        this.filled = true;
         System.out.println("Results filled out, changes may be made later.");
     }
 
@@ -89,6 +88,17 @@ public class Round {
                     first.index(), first.name(), tournament.points(first),
                     second.index(), second.name(), tournament.points(second)
             );
+        }
+    }
+
+    public boolean filled() { return this.filled; }
+
+    enum Verdict {
+        WIN("1 - 0"), LOSE("0 - 1"), DRAW("0.5");
+
+        public final String mark;
+        Verdict(String mark) {
+            this.mark = mark;
         }
     }
 }
