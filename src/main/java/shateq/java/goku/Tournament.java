@@ -1,6 +1,5 @@
 package shateq.java.goku;
 
-import org.jetbrains.annotations.NotNull;
 import shateq.kotlin.goku.Player;
 import shateq.kotlin.goku.registry.Performer;
 
@@ -11,8 +10,8 @@ public class Tournament {
     private final List<Player> players = new LinkedList<>();
     private Scoring scoring = new Tournament.Scoring(1F, 0.5F, 0F);
 
-    private boolean running = false;
     public final String name;
+    private boolean running = false;
     private final Comparator<Player> sorter = (o1, o2) -> {
         if (points(o1) > points(o2)) return -1;
         if (points(o1) < points(o2)) return 1;
@@ -61,15 +60,15 @@ public class Tournament {
     }
 
     public void finish() {
-        if (!running) return;
+        if (!running) { return; }
 
         System.out.println("Closure  of the tournament.");
         getTable();
         running = false;
     }
 
-    public float points(@NotNull Player p) {
-        return (p.wins() * scoring.win) + (p.draws() * scoring.draw);
+    public float points(Player p) {
+        return (p.wins() * scoring.win) + (p.draws() * scoring.draw) + ((rounds.size() - p.wins() - p.draws()) * scoring.lose);
     }
 
     public boolean running() { return this.running; }
@@ -86,8 +85,13 @@ public class Tournament {
         Player p = new Player(player.name(), this.players.size() + 1);
         this.players.add(p);
     }
+
+    public void addPlayer(String string) {
+        Player p = new Player(string, this.players.size() + 1) ;
+        this.players.add(p);
+    }
     // Scoring
-    record Scoring(float win, float draw, float lose) {}
+    public record Scoring(float win, float draw, float lose) {}
 
     public void setScoring(Scoring scoring) { this.scoring = scoring; }
     public Scoring scoring() { return this.scoring; }

@@ -63,7 +63,7 @@ public class GokuMain {
         }
     }
 
-    private static void options() {
+    public static void options() {
         System.out.printf("Options: %s, %s, %s, %s, %s, %s\n",
                 "exit", "table", "start", "next", "fill", "end"
         );

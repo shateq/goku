@@ -74,9 +74,7 @@ public class Round {
         System.out.println("Results filled out, changes may be made later.");
     }
 
-    public HashMap<Player, Player> map() {
-        return round;
-    }
+    public HashMap<Player, Player> map() { return round; }
 
     public void print() {
         var i = 0;
@@ -92,13 +90,4 @@ public class Round {
     }
 
     public boolean filled() { return this.filled; }
-
-    enum Verdict {
-        WIN("1 - 0"), LOSE("0 - 1"), DRAW("0.5");
-
-        public final String mark;
-        Verdict(String mark) {
-            this.mark = mark;
-        }
-    }
 }
