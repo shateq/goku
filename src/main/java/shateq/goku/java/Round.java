@@ -1,6 +1,6 @@
-package shateq.java.goku;
+package shateq.goku.java;
 
-import shateq.kotlin.goku.Player;
+import shateq.goku.kotlin.Player;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;

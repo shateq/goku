@@ -1,7 +1,7 @@
-package shateq.java.goku;
+package shateq.goku.java;
 
-import shateq.kotlin.goku.Player;
-import shateq.kotlin.goku.registry.Performer;
+import shateq.goku.kotlin.Player;
+import shateq.goku.kotlin.registry.Performer;
 
 import java.util.*;
 

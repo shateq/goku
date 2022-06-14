@@ -1,6 +1,6 @@
-package shateq.kotlin.goku
+package shateq.goku.kotlin
 
-import shateq.java.goku.Color
+import shateq.goku.java.Color
 
 data class Player(@get:JvmName("name") val name: String, @get:JvmName("index") val index: Int) {
     companion object {

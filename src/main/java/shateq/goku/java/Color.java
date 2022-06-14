@@ -1,4 +1,4 @@
-package shateq.java.goku;
+package shateq.goku.java;
 
 public enum Color {
     WHITE, BLACK
