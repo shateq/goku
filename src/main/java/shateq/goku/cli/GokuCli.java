@@ -1,14 +1,12 @@
-package shateq.goku.java;
+package shateq.goku.cli;
 
-import shateq.goku.kotlin.registry.Performer;
+import shateq.goku.GokuMainKt;
+import shateq.goku.Tournament;
+import shateq.goku.api.Performer;
 
-import java.util.Scanner;
+public class GokuCli {
 
-public class GokuMain {
-
-    public static final Scanner SCANNER = new Scanner(System.in);
-
-    public static void main(String[] args) {
+    public void loop() {
         System.out.println("Swiss Tournament Command Line Manager");
         options();
 
@@ -20,7 +18,7 @@ public class GokuMain {
 
         // While
         while (true) {
-            String line = SCANNER.nextLine();
+            String line = GokuMainKt.SCANNER.nextLine();
             if (line.equalsIgnoreCase("exit")) { System.exit(0); }
 
             if (line.equalsIgnoreCase("table")) {
@@ -61,6 +59,7 @@ public class GokuMain {
                 System.out.printf("New player '%s' added.\n", line);
             }
         }
+
     }
 
     public static void options() {

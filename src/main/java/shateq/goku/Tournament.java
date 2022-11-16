@@ -1,14 +1,14 @@
-package shateq.goku.java;
+package shateq.goku;
 
-import shateq.goku.kotlin.Player;
-import shateq.goku.kotlin.registry.Performer;
+import shateq.goku.api.Player;
+import shateq.goku.api.Performer;
 
 import java.util.*;
 
 public class Tournament {
     public List<Round> rounds = new LinkedList<>();
     private final List<Player> players = new LinkedList<>();
-    private Scoring scoring = new Tournament.Scoring(1F, 0.5F, 0F);
+    private Scoring scoring = new Scoring(1F, 0.5F, 0F);
 
     public final String name;
     private boolean running = false;
@@ -74,7 +74,10 @@ public class Tournament {
     public boolean running() { return this.running; }
     // Round
     public Round lastRound() {
-        return this.rounds.get(this.rounds.size() - 1);
+        if(rounds != null && !rounds.isEmpty()) {
+            return rounds.get(rounds.size() - 1);
+        }
+        return rounds.get(0);
     }
 
     public Round getRound(int index) { return this.rounds.get(index); }
@@ -91,8 +94,7 @@ public class Tournament {
         this.players.add(p);
     }
     // Scoring
-    public record Scoring(float win, float draw, float lose) {}
-
+    public record Scoring(float win, float draw, float lose) { }
     public void setScoring(Scoring scoring) { this.scoring = scoring; }
     public Scoring scoring() { return this.scoring; }
 }

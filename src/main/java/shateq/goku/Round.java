@@ -1,6 +1,7 @@
-package shateq.goku.java;
+package shateq.goku;
 
-import shateq.goku.kotlin.Player;
+import shateq.goku.api.Player;
+import shateq.goku.api.Verdict;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -47,7 +48,7 @@ public class Round {
                     first.index(), first.name(),
                     second.index(), second.name()
             );
-            String answer = GokuMain.SCANNER.nextLine();
+            String answer = GokuMainKt.SCANNER.nextLine();
 
             switch (answer) {
                 case "+" -> verdict = Verdict.WIN;
